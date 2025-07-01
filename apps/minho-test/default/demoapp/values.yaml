@@ -38,7 +38,7 @@ image:
 imagePullSecret:
   public-secret:
     enabled: true
-    existingSecret: "97431110"
+    existingSecret: acr-public-credentials
 
 # -- Security Context
 securityContext:
