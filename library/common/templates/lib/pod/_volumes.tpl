@@ -114,7 +114,6 @@ objectData: The object data to be used to render the Pod.
     {{- include "common.lib.pod.volumes.checkRWO" (dict
       "rootCtx" $rootCtx "objectData" $objectData "persistence" $persistence "type" $type "name" $name)
     -}}
-
     {{- $_ := set $selectedVolumes $type (mustAppend (index $selectedVolumes $type) $persistence) -}}
   {{- end -}}
 

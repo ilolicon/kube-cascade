@@ -4,6 +4,8 @@ global:
     probeType: http
     # -- Default Service Type
     serviceType: ClusterIP
+    # -- Default persistence type
+    persistenceType: pvc
     # -- Default probe timeouts
     probeTimeouts:
       liveness:
@@ -152,3 +154,14 @@ configmap:
     data:
       config.yaml: |
         date_format: UnixDate
+
+# -- Persistence configuration
+persistence:
+  config:
+    enabled: true
+    type: configmap
+    objectName: main
+    mountPath: /etc/demoapp
+    readonly: true
+    defaultMode: "0420"
+    targetSelectAll: true
