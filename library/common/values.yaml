@@ -1,0 +1,10 @@
+# Fix lint
+imagePullSecret: {}
+resources: {}
+service: {}
+secret: {}
+configmap: {}
+persistence: {}
+namespace: ""
+workload: {}
+serviceAccount: ""

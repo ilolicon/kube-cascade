@@ -1,0 +1,77 @@
+global: {}
+
+type: Deployment
+
+replicas: 2
+
+rollingUpdate:
+  maxUnavailable: "25%"
+  maxSurge: "25%"
+
+imagePullSecret:
+  "97431110":
+    enabled: true
+    existingSecret: "97431110"
+    targetSelectAll: true
+
+podSpec:
+  labels: {}
+  annotations: {}
+  securityContext: {}
+  nodeSelector:
+    os: linux
+  tolerations:
+  - key: "os"
+    operator: "Equal"
+    value: "linux"
+    effect: "NoSchedule"
+
+podOptions: {}
+
+# -- Security Context
+securityContext:
+  # -- Container security context for all containers
+  # Can be overruled per container
+  container:
+    runAsUser: 568
+    runAsGroup: 568
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    privileged: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      add: []
+      drop:
+      - ALL
+      # When set to false, it will automatically
+      # add CHOWN, SETUID, SETGID, FOWNER, DAC_OVERRIDE
+      # capabilities ONLY when container runs as ROOT
+      disableS6Caps: false
+    # -- PUID for all containers
+    # Can be overruled per container
+    PUID: 568
+    # -- UMASK for all containers
+    # Can be overruled per container
+    UMASK: "0022"
+  # -- Pod security context for all pods
+  # Can be overruled per pod
+  pod:
+    fsGroup: 568
+    fsGroupChangePolicy: OnRootMismatch
+    supplementalGroups: []
+    sysctls: []
+
+# -- Service
+service:
+  main:
+    enabled: true
+    labels: {}
+    annotations: {}
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        port: 80
+        targetPort: 80
+        protocol: TCP

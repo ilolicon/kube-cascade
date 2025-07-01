@@ -1,0 +1,1 @@
+{{- include "common.class.deployment" (dict "rootCtx" $ "objectData" .Values) -}}
