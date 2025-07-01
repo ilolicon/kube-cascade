@@ -4,6 +4,9 @@
   {{/* Make sure there are not any YAML errors */}}
   {{- include "common.values.validate" .Values -}}
 
+  {{/* Render ConfigMap(s) */}}
+  {{- include "common.spawner.configmap" . | nindent 0 -}}
+
   {{/* Render Image Pull Secrets(s) */}}
   {{- include "common.spawner.imagePullSecret" . | nindent 0 -}}
 

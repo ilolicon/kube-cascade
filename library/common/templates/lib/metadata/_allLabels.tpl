@@ -11,4 +11,5 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app: {{ include "common.lib.chart.names.chart" . }}
 release: {{ .Release.Name }}
+{{- include "common.lib.metadata.globalLabels" . }}
 {{- end -}}

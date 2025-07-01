@@ -33,6 +33,11 @@ image:
   pullPolicy: IfNotPresent
   tag: v1.0.0
 
+imagePullSecret:
+  public-secret:
+    enabled: true
+    existingSecret: "97431110"
+
 # -- Security Context
 securityContext:
   # -- Container security context for all containers
@@ -139,3 +144,11 @@ service:
         port: 80
         protocol: http
         targetPort: 80
+
+# -- ConfigMap configuration
+configmap:
+  main:
+    enabled: true
+    data:
+      config.yaml: |
+        date_format: UnixDate

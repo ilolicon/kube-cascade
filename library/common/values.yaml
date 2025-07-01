@@ -1,5 +1,7 @@
 # Fix lint
-global: {}
+global:
+  labels: {}
+  annotations: {}
 imagePullSecret: {}
 resources: {}
 service: {}
