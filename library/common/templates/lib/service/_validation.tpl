@@ -1,12 +1,12 @@
 {{/* Service Validation */}}
 {{/* Call this template:
-{{ include "tc.v1.common.lib.service.validation" (dict "objectData" $objectData) -}}
+{{ include "common.lib.service.validation" (dict "objectData" $objectData) -}}
 objectData:
   rootCtx: The root context of the chart.
   objectData: The service object.
 */}}
 
-{{- define "tc.v1.common.lib.service.validation" -}}
+{{- define "common.lib.service.validation" -}}
   {{- $rootCtx := .rootCtx -}}
   {{- $objectData := .objectData -}}
 
@@ -25,7 +25,7 @@ objectData:
       {{- $enabled := "false" -}}
 
       {{- if not (kindIs "invalid" $port.enabled) -}}
-        {{- $enabled = (include "tc.v1.common.lib.util.enabled" (dict
+        {{- $enabled = (include "common.lib.util.enabled" (dict
                   "rootCtx" $rootCtx "objectData" $port
                   "name" $name "caller" "Service Validation Util"
                   "key" "port")) -}}
@@ -61,11 +61,11 @@ objectData:
 
 {{/* Service Primary Validation */}}
 {{/* Call this template:
-{{ include "tc.v1.common.lib.service.primaryValidation" $ -}}
+{{ include "common.lib.service.primaryValidation" $ -}}
 */}}
 
-{{- define "tc.v1.common.lib.service.primaryValidation" -}}
-  {{- $result := (include "tc.v1.common.lib.service.hasPrimary" $) | fromJson -}}
+{{- define "common.lib.service.primaryValidation" -}}
+  {{- $result := (include "common.lib.service.hasPrimary" $) | fromJson -}}
 
   {{/* Require at least one primary service, if any enabled */}}
   {{- if and $result.hasEnabled (not $result.hasPrimary) -}}
@@ -74,7 +74,7 @@ objectData:
 
 {{- end -}}
 
-{{- define "tc.v1.common.lib.service.hasPrimary" -}}
+{{- define "common.lib.service.hasPrimary" -}}
   {{- $objectData := .objectData -}}
 
   {{- $hasPrimary := false -}}
@@ -84,7 +84,7 @@ objectData:
     {{- $enabled := "false" -}}
 
     {{- if not (kindIs "invalid" $service.enabled) -}}
-      {{- $enabled = (include "tc.v1.common.lib.util.enabled" (dict
+      {{- $enabled = (include "common.lib.util.enabled" (dict
                 "rootCtx" $ "objectData" $service
                 "name" $name "caller" "Service Validation Util"
                 "key" "service")) -}}
@@ -102,7 +102,7 @@ objectData:
 
         {{- $hasPrimary = true -}}
 
-        {{- include "tc.v1.common.lib.servicePort.primaryValidation" (dict "objectData" $service.ports) -}}
+        {{- include "common.lib.servicePort.primaryValidation" (dict "objectData" $service.ports) -}}
 
       {{- end -}}
 
@@ -115,13 +115,13 @@ objectData:
 
 {{/* Service Port Primary Validation */}}
 {{/* Call this template:
-{{ include "tc.v1.common.lib.service.primaryValidation" (dict "objectData" $objectData -}}
+{{ include "common.lib.service.primaryValidation" (dict "objectData" $objectData -}}
 objectData:
   The ports of the service.
 */}}
-{{- define "tc.v1.common.lib.servicePort.primaryValidation" -}}
+{{- define "common.lib.servicePort.primaryValidation" -}}
   {{- $objectData := .objectData -}}
-  {{- $result := (include "tc.v1.common.lib.servicePort.hasPrimary" (dict "objectData" $objectData)) | fromJson -}}
+  {{- $result := (include "common.lib.servicePort.hasPrimary" (dict "objectData" $objectData)) | fromJson -}}
 
   {{/* Require at least one primary service, if any enabled */}}
   {{- if and $result.hasEnabled (not $result.hasPrimary) -}}
@@ -130,7 +130,7 @@ objectData:
 
 {{- end -}}
 
-{{- define "tc.v1.common.lib.servicePort.hasPrimary" -}}
+{{- define "common.lib.servicePort.hasPrimary" -}}
   {{- $objectData := .objectData -}}
 
   {{- $hasPrimary := false -}}

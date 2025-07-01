@@ -19,7 +19,7 @@ objectData:
     {{- $replicas = 0 -}}
   {{- end }}
 replicas: {{ $replicas }}
-revisionHistoryLimit: {{ $objectData.revisionHistoryLimit | default 3 }}
+revisionHistoryLimit: {{ $objectData.revisionHistoryLimit | default 5 }}
 strategy:
   type: {{ $strategy }}
   {{- if and (eq $strategy "RollingUpdate") $objectData.rollingUpdate -}}
