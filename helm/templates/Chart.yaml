@@ -1,6 +1,6 @@
 apiVersion: v2
-name: demoapp
-description: demoapp chart for Kubernetes
+name: TEMPLATE_NAME
+description: TEMPLATE_NAME chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -23,7 +23,7 @@ version: 0.1.0
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
 
-# The common code in library chart
+# The common template in library chart
 dependencies:
 - name: common
   version: 0.1.0

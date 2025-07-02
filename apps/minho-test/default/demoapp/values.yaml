@@ -1,139 +1,16 @@
-global:
-  fallbackDefaults:
-    # -- Default probe type
-    probeType: http
-    # -- Default Service Type
-    serviceType: ClusterIP
-    # -- Default persistence type
-    persistenceType: pvc
-    # -- Default probe timeouts
-    probeTimeouts:
-      liveness:
-        initialDelaySeconds: 12
-        periodSeconds: 15
-        timeoutSeconds: 5
-        failureThreshold: 5
-        successThreshold: 1
-      readiness:
-        initialDelaySeconds: 10
-        periodSeconds: 12
-        timeoutSeconds: 5
-        failureThreshold: 4
-        successThreshold: 2
-      startup:
-        initialDelaySeconds: 10
-        periodSeconds: 5
-        timeoutSeconds: 3
-        failureThreshold: 60
-        successThreshold: 1
-  # -- Enable to stop most pods and containers
-  # does not include stand-alone pod
-  stopAll: false
-
 image:
   repository: registry.cn-hangzhou.aliyuncs.com/kubernetes-syncer/demoapp
   pullPolicy: IfNotPresent
   tag: v1.0.0
 
-imagePullSecret:
-  public-secret:
-    enabled: true
-    existingSecret: acr-public-credentials
-
-# -- Security Context
-securityContext:
-  # -- Container security context for all containers
-  # Can be overruled per container
-  container:
-    runAsUser: 568
-    runAsGroup: 568
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
-    privileged: false
-    seccompProfile:
-      type: RuntimeDefault
-    capabilities:
-      add: []
-      drop:
-      - ALL
-      # When set to false, it will automatically
-      # add CHOWN, SETUID, SETGID, FOWNER, DAC_OVERRIDE
-      # capabilities ONLY when container runs as ROOT
-      disableS6Caps: false
-    # -- PUID for all containers
-    # Can be overruled per container
-    PUID: 568
-    # -- UMASK for all containers
-    # Can be overruled per container
-    UMASK: "0022"
-  # -- Pod security context for all pods
-  # Can be overruled per pod
-  pod:
-    fsGroup: 568
-    fsGroupChangePolicy: OnRootMismatch
-    supplementalGroups: []
-    sysctls: []
-
-# -- Resources
-# Can be overruled per container
 resources:
   limits:
-    cpu: 2000m
-    memory: 2000Mi
+    cpu: 4
+    memory: 8Gi
   requests:
     cpu: 100m
     memory: 250Mi
 
-containerOptions:
-  NVIDIA_CAPS:
-  - all
-
-# -- Timezone used everywhere applicable
-TZ: UTC
-
-# -- Options for all pods
-# Can be overruled per pod
-podOptions:
-  dnsConfig:
-    options:
-    - name: single-request-reopen
-      value: "true"
-  nodeSelector:
-    kubernetes.io/arch: "amd64"
-  tolerations:
-  - key: "node-role.kubernetes.io/control-plane"
-    operator: "Exists"
-    effect: "NoSchedule"
-  automountServiceAccountToken: false
-
-# -- Workload configuration
-workload:
-  main:
-    enabled: true
-    primary: true
-    type: Deployment
-    podSpec:
-      containers:
-        main:
-          enabled: true
-          primary: true
-          env:
-            DEBUG: true
-          probes:
-            liveness:
-              enabled: true
-              type: "{{ .Values.service.main.ports.main.protocol }}"
-              port: "{{ $.Values.service.main.ports.main.targetPort | default .Values.service.main.ports.main.port }}"
-            readiness:
-              enabled: true
-              type: "{{ .Values.service.main.ports.main.protocol }}"
-              port: "{{ $.Values.service.main.ports.main.targetPort | default .Values.service.main.ports.main.port }}"
-            startup:
-              enabled: true
-              type: "{{ .Values.service.main.ports.main.protocol }}"
-              port: "{{ $.Values.service.main.ports.main.targetPort | default .Values.service.main.ports.main.port }}"
-
-# -- Service configuration
 service:
   main:
     enabled: true
@@ -142,12 +19,9 @@ service:
     ports:
       main:
         enabled: true
-        primary: true
         port: 80
-        protocol: http
         targetPort: 80
 
-# -- ConfigMap configuration
 configmap:
   main:
     enabled: true
@@ -155,7 +29,6 @@ configmap:
       config.yaml: |
         date_format: UnixDate
 
-# -- Persistence configuration
 persistence:
   config:
     enabled: true
