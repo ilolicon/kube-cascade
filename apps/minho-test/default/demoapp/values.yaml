@@ -11,6 +11,7 @@ resources:
     cpu: 100m
     memory: 250Mi
 
+# -- Service configuration
 service:
   main:
     enabled: true
