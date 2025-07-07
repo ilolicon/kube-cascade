@@ -3,39 +3,29 @@ image:
   pullPolicy: IfNotPresent
   tag: v1.0.0
 
-resources:
-  limits:
-    cpu: 4
-    memory: 8Gi
-  requests:
-    cpu: 100m
-    memory: 250Mi
-
-# -- Service configuration
 service:
   main:
     enabled: true
     primary: true
-    publishNotReadyAddresses: false
     ports:
       main:
         enabled: true
         port: 80
         targetPort: 80
 
-configmap:
-  main:
-    enabled: true
-    data:
-      config.yaml: |
-        date_format: UnixDate
+# configmap:
+#   main:
+#     enabled: true
+#     data:
+#       config.yaml: |
+#         date_format: UnixDate
 
-persistence:
-  config:
-    enabled: true
-    type: configmap
-    objectName: main
-    mountPath: /etc/demoapp
-    readonly: true
-    defaultMode: "0420"
-    targetSelectAll: true
+# persistence:
+#   config:
+#     enabled: true
+#     type: configmap
+#     objectName: main
+#     mountPath: /etc/demoapp
+#     readonly: true
+#     defaultMode: "0420"
+#     targetSelectAll: true

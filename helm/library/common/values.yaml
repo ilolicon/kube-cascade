@@ -118,14 +118,17 @@ workload:
           probes:
             liveness:
               enabled: true
+              path: /-/healthy
               type: "{{ .Values.service.main.ports.main.protocol }}"
               port: "{{ $.Values.service.main.ports.main.targetPort | default .Values.service.main.ports.main.port }}"
             readiness:
               enabled: true
+              path: /-/ready
               type: "{{ .Values.service.main.ports.main.protocol }}"
               port: "{{ $.Values.service.main.ports.main.targetPort | default .Values.service.main.ports.main.port }}"
             startup:
               enabled: true
+              path: /-/ready
               type: "{{ .Values.service.main.ports.main.protocol }}"
               port: "{{ $.Values.service.main.ports.main.targetPort | default .Values.service.main.ports.main.port }}"
 
