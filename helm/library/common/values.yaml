@@ -1,3 +1,5 @@
+# -- Docs: https://truecharts.org/general/
+
 # -- Global values
 global:
   # -- Set additional global labels
@@ -38,9 +40,9 @@ global:
   stopAll: false
 
 image:
-  repository: image-repository
+  repository: ilolicon/demoapp
   pullPolicy: IfNotPresent
-  tag: image-tag
+  tag: v1.0.0
 
 imagePullSecret:
   public-secret:
@@ -151,6 +153,23 @@ service:
         protocol: http
         port: 80
         targetPort: 8080
+
+# configmap:
+#   main:
+#     enabled: true
+#     data:
+#       config.yaml: |
+#         date_format: UnixDate
+
+# persistence:
+#   config:
+#     enabled: true
+#     type: configmap
+#     objectName: main
+#     mountPath: /etc/demoapp
+#     readonly: true
+#     defaultMode: "0420"
+#     targetSelectAll: tru
 
 # -- This section contains some pre-config for frequently used dependencies
 dependencies:
